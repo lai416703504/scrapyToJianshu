@@ -9,3 +9,7 @@
 class ScrapytojianshuPipeline(object):
     def process_item(self, item, spider):
         return item
+
+class JianshuPipeline(object):
+
+    '''这里网站上是想放到mongodb，我这里准备放文件里面'''
