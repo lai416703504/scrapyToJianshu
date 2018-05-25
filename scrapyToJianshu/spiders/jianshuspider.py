@@ -82,7 +82,7 @@ class ITSpider(JianshuspiderSpider):
     name = 'ITSpider'
     page = 0
     category_code = 'V2CqjW'
-    common_url = 'http://www.jianshu.com/c' + category_code + '?order_by=added_at&page='
+    common_url = 'http://www.jianshu.com/c/' + category_code + '?order_by=added_at&page='
     url = common_url + str(page)
     start_urls = [url]
 
@@ -90,6 +90,6 @@ class ITSpider(JianshuspiderSpider):
         self.page += 1
 
         #每天抓20页
-        if self.page > 20:
+        if self.page > 2:
             return
         return scrapy.Request(self.common_url + str(self.page),callback=self.parse)
