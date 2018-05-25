@@ -18,19 +18,38 @@ class ScrapytojianshuPipeline(object):
 
 
 class JianshuPipeline(object):
+    # def __init__(self):
+    #     # 可选实现，当spider被开启时，这个方法被调用。
+    #     # 输出到tongcheng_pipeline.json文件
+    #     self.file = open('jianshu.json', 'wb')
+    #     self.exporter = JsonItemExporter(self.file, encoding='utf-8')
+    #     self.exporter.start_exporting()
+    #
+    # def process_item(self, item, spider):
+    #     self.exporter.export_item(item)
+    #     return item
+    #
+    # def close_spider(self, spider):
+    #     # 可选实现，当spider被关闭时，这个方法被调用
+    #     self.exporter.finish_exporting()
+    #     self.file.close()
+
+
+    '''
+
+    上面的方法是直接生成一条JSON文件
+
+    下面的方法适合读取文件后给Pandas 的DataFrame 生成数据
+
+    '''
 
     def __init__(self):
-        # 可选实现，当spider被开启时，这个方法被调用。
-        # 输出到tongcheng_pipeline.json文件
-        self.file = open('jianshu.json', 'wb'
-        self.exporter = JsonItemExporter(self.file, encoding='utf-8')
-        self.exporter.start_exporting()
+        self.file = open('jianshu.txt', 'wb')
 
     def process_item(self, item, spider):
-        self.exporter.export_item(item)
+        json_item = json.dumps(dict(item))
+        self.file.write(json_item + '\n')
         return item
 
     def close_spider(self, spider):
-        # 可选实现，当spider被关闭时，这个方法被调用
-        self.exporter.finish_exporting()
         self.file.close()

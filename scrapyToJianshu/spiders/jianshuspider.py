@@ -2,6 +2,7 @@
 import scrapy
 from scrapyToJianshu.items import JianShuItem
 from abc import abstractmethod
+import re
 
 
 class JianshuspiderSpider(scrapy.Spider):
@@ -24,53 +25,54 @@ class JianshuspiderSpider(scrapy.Spider):
     def parse(self, response):
         for i in response.xpath("//ul[@class='note-list']/li"):
             item = JianShuItem()
+            pattern = '\s+'
             try:
-                item['_id'] = i.xpath("./@id").extract()[0]
+                item['_id'] = re.sub(pattern, '', i.xpath("./@id").extract()[0])
             except Exception as e:
                 print(e)
                 return
             try:
-                item['nickname'] = i.xpath("./div[@class='content']/div[@class='author']/div[@class='info']/a[@class='nikename']/text()").extract()[0]
+                item['nickname'] = re.sub(pattern, '', i.xpath("./div[@class='content']/div[@class='author']/div[@class='info']/a[@class='nickname']/text()").extract()[0])
             except Exception as e:
                 item['nickname'] = ''
             try:
-                item['title'] = i.xpath("./div[@class='content']/a[@class='title']/text()").extract()[0]
+                item['title'] = re.sub(pattern, '', i.xpath("./div[@class='content']/a[@class='title']/text()").extract()[0])
             except Exception as e:
                 item['title'] = ''
             try:
-                item['createTime'] = i.xpath("./div[@class='content']/div[@class='author']/div[@class='info']/span/@data-shared-at").extract()[0]
+                item['createTime'] = re.sub(pattern, '', i.xpath("./div[@class='content']/div[@class='author']/div[@class='info']/span/@data-shared-at").extract()[0])
             except Exception as e:
                 item['createTime'] = ''
             try:
-                item['content_url'] = i.xpath("./div[@class='content']/a[@class='title']/@href").extract()[0]
+                item['content_url'] = re.sub(pattern, '', i.xpath("./div[@class='content']/a[@class='title']/@href").extract()[0])
             except Exception as e:
                 item['content_url'] = ''
             try:
-                item['content_summary'] = i.xpath("./div[@class='content']/p/text()").extract()[0]
+                item['content_summary'] = re.sub(pattern, '', i.xpath("./div[@class='content']/p/text()").extract()[0])
             except Exception as e:
                 item['content_summary'] = ''
             try:
-                item['read'] = i.xpath("./div[@class='content']/div[@class='meta']/a[1]/text()[last()]").extract()[0]
+                item['read'] = re.sub(pattern, '', i.xpath("./div[@class='content']/div[@class='meta']/a[1]/text()[last()]").extract()[0])
             except Exception as e:
-                item['read'] = 0
+                item['read'] = '0'
             try:
-                item['comments'] = i.xpath("./div[@class='content']/div[@class='meta']/a[2]/text()[last()]").extract()[0]
+                item['comments'] = re.sub(pattern, '', i.xpath("./div[@class='content']/div[@class='meta']/a[2]/text()[last()]").extract()[0])
             except Exception as e:
-                item['comments'] = 0
+                item['comments'] = '0'
             try:
-                item['like'] = i.xpath("./div[@class='content']/div[@class='meta']/span[1]/text()[last()]").extract()[0]
+                item['like'] = re.sub(pattern, '', i.xpath("./div[@class='content']/div[@class='meta']/span[1]/text()[last()]").extract()[0])
             except Exception as e:
-                item['like'] = 0
+                item['like'] = '0'
             try:
-                item['money'] = i.xpath("./div[@class='content']/div[@class='meta']/span[2]/text()[last()]").extract()[0]
+                item['money'] = re.sub(pattern, '', i.xpath("./div[@class='content']/div[@class='meta']/span[2]/text()[last()]").extract()[0])
             except Exception as e:
-                item['money'] = 0
+                item['money'] = '0'
             try:
-                item['content_figure_url'] = i.xpath("./a[@class='wrap-img']/img/@src").extract()[0]
+                item['content_figure_url'] = re.sub(pattern, '', i.xpath("./a[@class='wrap-img']/img/@src").extract()[0])
             except Exception as e:
                 item['content_figure_url'] = ''
             try:
-                item['author_icon_url'] = i.xpath("./div[@class='content']/div[@class='author']/a[@class='avatar']/img/@src").extract()[0]
+                item['author_icon_url'] = re.sub(pattern, '', i.xpath("./div[@class='content']/div[@class='author']/a[@class='avatar']/img/@src").extract()[0])
             except Exception as e:
                 item['author_icon_url'] = ''
             yield item
