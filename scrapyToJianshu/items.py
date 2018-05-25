@@ -39,3 +39,21 @@ class JianShuItem(scrapy.Item):
     content_figure_url = scrapy.Field()
     # 作者头像，可以为空
     author_icon_url = scrapy.Field()
+
+class TaobaoItem(scrapy.Item):
+    #图片地址
+    # pic_url = scrapy.Field()
+    #价格
+    price = scrapy.Field()
+    # 销量
+    count = scrapy.Field()
+    #标题
+    title = scrapy.Field()
+    # 商品链接
+    goods_url = scrapy.Field()
+    #店铺地址
+    location = scrapy.Field()
+    #店铺名
+    shopname = scrapy.Field()
+    #店铺链接
+    # shop_url = scrapy.Field()
