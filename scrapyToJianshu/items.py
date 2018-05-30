@@ -21,8 +21,6 @@ class JianShuItem(scrapy.Item):
     nickname = scrapy.Field()
     # 文章标题
     title = scrapy.Field()
-    # 发表时间
-    createTime = scrapy.Field()
     # 文章url
     content_url = scrapy.Field()
     # 文章简介
@@ -36,9 +34,10 @@ class JianShuItem(scrapy.Item):
     # 打赏金额
     money = scrapy.Field()
     # 配图，可以为空
-    content_figure_url = scrapy.Field()
-    # 作者头像，可以为空
-    author_icon_url = scrapy.Field()
+    content_figure_urls = scrapy.Field()
+    # 配图，下载下来
+    content_figure = scrapy.Field()
+    content_figure_paths = scrapy.Field()
 
 class TaobaoItem(scrapy.Item):
     #图片地址

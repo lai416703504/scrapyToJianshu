@@ -14,6 +14,16 @@ class JianshuspiderSpider(scrapy.Spider):
     common_url = ''
     url = ''
 
+    default_headers = {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Encoding': 'gzip, deflate, sdch, br',
+        'Accept-Language': 'zh-CN,zh;q=0.8,en;q=0.6',
+        'Cache-Control': 'max-age=0',
+        'Connection': 'keep-alive',
+        'Host': 'www.douban.com',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36',
+    }
+
     @abstractmethod
     def parse_more(self):
         pass
@@ -40,10 +50,6 @@ class JianshuspiderSpider(scrapy.Spider):
             except Exception as e:
                 item['title'] = ''
             try:
-                item['createTime'] = re.sub(pattern, '', i.xpath("./div[@class='content']/div[@class='author']/div[@class='info']/span/@data-shared-at").extract()[0])
-            except Exception as e:
-                item['createTime'] = ''
-            try:
                 item['content_url'] = re.sub(pattern, '', i.xpath("./div[@class='content']/a[@class='title']/@href").extract()[0])
             except Exception as e:
                 item['content_url'] = ''
@@ -68,13 +74,9 @@ class JianshuspiderSpider(scrapy.Spider):
             except Exception as e:
                 item['money'] = '0'
             try:
-                item['content_figure_url'] = re.sub(pattern, '', i.xpath("./a[@class='wrap-img']/img/@src").extract()[0])
+                item['content_figure_urls'] = ['http:' + re.sub(pattern, '', i.xpath("./a[@class='wrap-img']/img/@src").extract()[0])]
             except Exception as e:
-                item['content_figure_url'] = ''
-            try:
-                item['author_icon_url'] = re.sub(pattern, '', i.xpath("./div[@class='content']/div[@class='author']/a[@class='avatar']/img/@src").extract()[0])
-            except Exception as e:
-                item['author_icon_url'] = ''
+                item['content_figure_urls'] = ['']
             yield item
         # 交由之类实现具体的处理
         yield self.parse_more()
@@ -95,3 +97,20 @@ class ITSpider(JianshuspiderSpider):
         if self.page > 2:
             return
         return scrapy.Request(self.common_url + str(self.page),callback=self.parse)
+
+'''程序员 专题'''
+class CoderSpider(JianshuspiderSpider):
+    name = 'jianshu-coder'
+    page = 0
+    category_code = 'NEt52a'
+    common_url = 'http://www.jianshu.com/c/' + category_code + '?order_by=added_at&page='
+    url = common_url + str(page)
+    start_urls = [url]
+
+    def parse_more(self):
+        self.page += 1
+
+        if self.page > 10:
+            return
+        return scrapy.Request(self.common_url + str(self.page), callback=self.parse)
+
