@@ -6,6 +6,7 @@
 # https://doc.scrapy.org/en/latest/topics/items.html
 
 import scrapy
+from scrapy import Field,Item
 
 
 class ScrapytojianshuItem(scrapy.Item):
@@ -14,30 +15,34 @@ class ScrapytojianshuItem(scrapy.Item):
     pass
 
 
-class JianShuItem(scrapy.Item):
+class JianShuItem(Item):
     # id
-    _id = scrapy.Field()
-    # 作者昵称
-    nickname = scrapy.Field()
+    _id = Field()
     # 文章标题
-    title = scrapy.Field()
+    title = Field()
+    # 作者昵称
+    nickname = Field()
     # 文章url
-    content_url = scrapy.Field()
+    content_url = Field()
     # 文章简介
-    content_summary = scrapy.Field()
+    content_summary = Field()
+    # 文章内容
+    content_text = Field()
+    # 文章字数
+    content_wordage = Field()
     # 浏览数量
-    read = scrapy.Field()
+    read = Field()
     # 评论数量
-    comments = scrapy.Field()
+    comments = Field()
     # 点赞数量
-    like = scrapy.Field()
-    # 打赏金额
-    money = scrapy.Field()
+    like = Field()
     # 配图，可以为空
-    content_figure_urls = scrapy.Field()
+    content_figure_urls = Field()
+    # 发表时间
+    create_time = Field()
     # 配图，下载下来
-    content_figure = scrapy.Field()
-    content_figure_paths = scrapy.Field()
+    # content_figure = Field()
+    # content_figure_paths = Field()
 
 class TaobaoItem(scrapy.Item):
     #图片地址

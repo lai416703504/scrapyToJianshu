@@ -78,6 +78,7 @@ class JianshuPipeline(object):
         self.file.close()
 
 
+'''简书下载图片'''
 class JianshuImagesPipeline(ImagesPipeline):
     default_headers = {
         'accept': 'image/webp,image/*,*/*;q=0.8',
